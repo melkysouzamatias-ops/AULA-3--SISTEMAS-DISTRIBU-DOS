@@ -1,0 +1,58 @@
+CÓDIGO SERVIDOR:
+
+import socket
+
+servidor = socket.socket(
+    socket.AF_INET,
+    socket.SOCK_DGRAM
+)
+
+servidor.bind(("localhost", 5000))
+
+print("Servidor UDP aguardando mensagens...")
+
+dados, endereco = servidor.recvfrom(1024)
+
+mensagem = dados.decode()
+
+print("Cliente:", endereco)
+print("Mensagem recebida:", mensagem)
+
+resposta = "Mensagem recebida pelo servidor UDP!"
+
+servidor.sendto(
+    resposta.encode(),
+    endereco
+)
+
+servidor.close()
+
+CÓDIGO CLIENTE:
+
+import socket
+
+cliente = socket.socket(
+    socket.AF_INET,
+    socket.SOCK_DGRAM
+)
+
+mensagem = input("Digite sua mensagem: ")
+
+cliente.sendto(
+    mensagem.encode(),
+    ("localhost", 5000)
+)
+
+dados, endereco = cliente.recvfrom(1024)
+
+print("Resposta do servidor:")
+print(dados.decode())
+
+cliente.close()
+
+RESULTADO:
+
+PS C:\Users\Matias\AppData\Local\Programs\Microsoft VS Code> & C:\Users\Matias\AppData\Local\Python\pythoncore-3.14-64\python.exe "c:/Users/Matias/Desktop/FACULDADE/SISTEMAS DISTRIBUIDOS/AULA 3/aula3_udp/servidor_udp.py"
+Servidor UDP aguardando mensagens...
+Cliente: ('127.0.0.1', 63596)
+Mensagem recebida: Olá Servidor UDP!
